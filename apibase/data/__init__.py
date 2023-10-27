@@ -1,11 +1,14 @@
 import asyncio
+from typing import AsyncIterable
 
 import httpx
 
 from apibase.config import Settings
 
 
-async def get_planet_page(client: httpx.AsyncClient, settings: Settings, url):
+async def get_planet_page(
+    client: httpx.AsyncClient, settings: Settings, url: str
+) -> AsyncIterable[dict[str, str]]:
     """
     Async generator to get the planets from swapi.
 
@@ -26,7 +29,7 @@ async def get_planet_page(client: httpx.AsyncClient, settings: Settings, url):
 
 async def get_planet_data(
     client: httpx.AsyncClient, settings: Settings, planet_id: int
-):
+) -> dict[str, str | tuple[dict[str, str]] | list[str]]:
     """Get planet details."""
     response = await client.get(f"{settings.swapi_url}/planets/{planet_id}/")
     data = response.json()
@@ -37,7 +40,7 @@ async def get_planet_data(
     return data
 
 
-async def get_person(client: httpx.AsyncClient, url: str):
+async def get_person(client: httpx.AsyncClient, url: str) -> dict[str, str]:
     """Get person details."""
     response = await client.get(url)
     data = response.json()

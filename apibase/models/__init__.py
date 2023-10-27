@@ -6,7 +6,7 @@ from apibase.config import get_settings
 
 
 def extract_id(url: str):
-    match = re.search(fr"{get_settings().swapi_url}/planets/(\d+)/", url)
+    match = re.search(rf"{get_settings().swapi_url}/planets/(\d+)/", url)
     if match:
         return match.group(1)
     return None
